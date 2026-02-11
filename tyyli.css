@@ -1,0 +1,136 @@
+/* t10 */
+
+/* Tausta */
+body {
+    background-color: lightblue;
+    margin: 0;
+  
+
+   /* keskittää */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Lomake */
+form {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px darkgrey;
+    margin-bottom: 20px;
+}
+
+/* Input ja nappi */
+ input {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* Viestit */
+.virhe {
+    color: red;
+    font-weight: bold;
+}
+
+.onnistunut {
+    color: green;
+    font-weight: bold;
+}
+
+/* Lista */
+ul {
+    padding-left: 20px;
+}
+
+/*t11*/
+
+.rekisterikuva {
+    width: 150px;
+    height: auto;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+
+.rekisteri{
+    background-color: pink;
+}
+
+ /*t12*/
+
+.tietosuoja{
+    background-color: lightseagreen;
+}
+
+/*t13*/
+
+.aines-rivit { 
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+}
+
+.aines-rivi {
+    display: flex;
+    gap: 10px;       
+    align-items: center;
+}
+
+.aines-rivi .aines,
+.aines-rivi .maara {
+    flex: 1;        
+}
+
+.aines-rivi input,
+.aines-rivi select {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+/*t13 + t14*/
+
+.navbar {
+    background-color: black;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    z-index: 1000; 
+}
+
+.navbar a {               
+    display: block;
+    color: white;              
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    background-color: whitesmoke;      
+    color: black;
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+    }
+    .navbar a {
+        width: 100%;
+    }
+}
+
