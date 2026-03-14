@@ -1,6 +1,28 @@
+<?php
+session_start(); 
+// Käynnistetään sessio, jotta voidaan tarkistaa kirjautuminen ja rooli
+
+// Tarkistetaan onko käyttäjä kirjautunut
+if (!isset($_SESSION["user_id"])) {
+    header("Location: login.php"); 
+    // Jos ei ole kirjautunut, ohjataan login-sivulle
+    exit();
+}
+
+// Tarkistetaan onko käyttäjä admin (rooli = 1)
+if ($_SESSION["role"] != 1) {
+    die("Tämä sivu on vain ylläpitäjälle.");
+    // Jos ei ole admin, sivu pysäytetään tähän
+}
+
+// Näytetään adminin navigointipalkki
+include "naviAdmin.php";
+?>
+
 <!DOCTYPE html>
 <html lang="fi">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="tyyli.css">
     <title>Reseptien hyväksyminen</title>
@@ -42,7 +64,7 @@ $sql = "SELECT d.drinkki_id, d.nimi, d.valmistusohje,
 $tulos = $yhteys->query($sql);
 
 if ($tulos->num_rows == 0) {
-    echo "<p class="onnistunut">Ei hyväksymättömiä drinkkejä.</p>";
+    echo '<p class="onnistunut">Ei hyväksymättömiä drinkkejä.</p>';
 } else {
     while ($drink = $tulos->fetch_assoc()) {
         ?>
