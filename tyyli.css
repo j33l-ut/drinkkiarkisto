@@ -1,136 +1,203 @@
 /* t10 */
 
+/* GLOBAL RESET */
+* {
+    box-sizing: border-box;  /* Lasketaan padding ja border mukaan elementin kokoon */
+    margin: 0;                /* Poistetaan oletusmarginaalit */
+    padding: 0;               /* Poistetaan oletuspadding */
+    font-family: 'Segoe UI', sans-serif; /* Asetetaan yhtenäinen fontti kaikille elementeille */
+}
+
 /* Tausta */
 body {
-    background-color: lightblue;
-    margin: 0;
-  
+    min-height: 100vh;        /* Tekee niin, että body on vähintään koko ikkunan korkuinen */
+    background: linear-gradient(135deg, #5c0711, #878cef); /* Gradient-tausta 135° kulmassa */
 
-   /* keskittää */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: flex;             /* Tekee bodyyn flexboxin */
+    flex-direction: column;    /* Elementit järjestetään pystysuoraan */
+    align-items: center;       /* Elementit keskitetään vaakasuunnassa */
 }
 
 /* Lomake */
 form {
-    background-color: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px darkgrey;
-    margin-bottom: 20px;
+    margin-top: 50px;         /* Tilaa yläreunasta */
+    background: rgba(255, 255, 255, 0.15);  /* Puoliläpinäkyvä tausta */
+    backdrop-filter: blur(15px);             /* Taustan sumentaminen */
+    padding: 25px 30px;       /* Sisäinen tila */
+    border-radius: 15px;      /* Pyöristetyt kulmat */
+    width: 320px;             /* Kiinteä leveys */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3); /* Varjo lomakkeelle */
+    animation: fadeIn 0.6s ease-in-out;      /* Pehmeä ilmestymisefekti */
+    margin-bottom: 20px;      /* Tilaa alareunaan */
 }
 
-/* Input ja nappi */
- input {
-    width: 100%;
-    padding: 5px;
-    box-sizing: border-box;
-    margin-top: 5px;
-    margin-bottom: 10px;
+/* Input ja select kentät */
+input, select {
+    width: 100%;              /* Vie koko leveyden */
+    padding: 10px;            /* Sisäinen tila */
+    margin: 8px 0;            /* Tilaa ylhäällä ja alhaalla */
+    border-radius: 10px;      /* Pyöristetyt kulmat */
+    border: none;             /* Ei rajaa */
+    outline: none;            /* Ei oletusfocus-efektiä */
+    transition: 0.3s;         /* Pehmeä siirtymä hover/focus-efekteihin */
 }
 
+/* Kun input tai select on valittuna */
+input:focus, select:focus {
+    box-shadow: 0 0 20px #ffffff;  /* Hohtaa valkoisena */
+    transform: scale(1.02);        /* Kasvaa hieman suuremmaksi */
+}
+
+/* ===== BUTTON ===== */
 button {
-    padding: 5px 10px;
-    cursor: pointer;
+    width: 100%;               /* Vie koko leveyden */
+    padding: 12px;             /* Sisäinen tila */
+    border: none;              /* Ei rajaa */
+    border-radius: 25px;       /* Pyöristetyt kulmat */
+    background: linear-gradient(90deg, #ff6a00, #ee0979); /* Gradient-tausta */
+    color: white;              /* Tekstin väri */
+    font-weight: bold;         /* Lihavoitu teksti */
+    cursor: pointer;           /* Hiiren kursoriksi pointer */
+    transition: 0.3s ease;     /* Pehmeä siirtymä hover-efekteihin */
+}
+
+/* Hover-efekti napille */
+button:hover {
+    transform: scale(1.05);                 /* Kasvaa hieman */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3); /* Lisään varjon */
 }
 
 /* Viestit */
 .virhe {
-    color: red;
-    font-weight: bold;
+    color: #ff4b5c;           /* Punainen virheviesti */
+    font-weight: bold;        /* Lihavoitu */
+    margin-top: 10px;         /* Tilaa yläpuolella */
 }
 
 .onnistunut {
-    color: green;
-    font-weight: bold;
+    color: #00ffb3;           /* Vihreä onnistumisviesti */
+    font-weight: bold;        /* Lihavoitu */
+    margin-top: 10px;         /* Tilaa yläpuolella */
 }
 
 /* Lista */
 ul {
-    padding-left: 20px;
+    margin-top: 20px;          /* Tilaa yläpuolella */
+    list-style: none;          /* Ei numeroita tai pisteitä */
 }
 
-/*t11*/
-
-.rekisterikuva {
-    width: 150px;
-    height: auto;
-    margin: 10px;
-    border-radius: 10px;
+/* Listan yksittäinen elementti */
+ul li {
+    background: rgba(255,255,255,0.2); /* Tausta listan kohdille */
+    padding: 10px;                      /* Sisäinen tila */
+    margin: 5px 0;                      /* Tilaa ylä- ja alareunassa */
+    border-radius: 10px;                /* Pyöristetyt kulmat */
 }
 
+/* t13 */
 
-.rekisteri{
-    background-color: pink;
-}
-
- /*t12*/
-
-.tietosuoja{
-    background-color: lightseagreen;
-}
-
-/*t13*/
-
+/* Ainesosien rivien kontti */
 .aines-rivit { 
-    display: flex;
-    flex-direction: column;
-    gap: 10px; 
+    display: flex;             /* Flexbox */
+    flex-direction: column;    /* Rivit pystysuoraan */
+    gap: 10px;                 /* Tilaa rivien välissä */
 }
 
+/* Yksi aines-rivi */
 .aines-rivi {
-    display: flex;
-    gap: 10px;       
-    align-items: center;
+    display: flex;             /* Flexbox */
+    gap: 10px;                 /* Tilaa kenttien välissä */
+    align-items: center;       /* Keskitetään pystysuunnassa */
 }
 
+/* Aines- ja määrä-kentät vie koko tilan */
 .aines-rivi .aines,
 .aines-rivi .maara {
-    flex: 1;        
+    flex: 1;                   /* Vie yhtä paljon tilaa */
 }
 
+/* Ainesrivien input ja select kentät */
 .aines-rivi input,
 .aines-rivi select {
-    width: 100%;
-    padding: 5px;
-    box-sizing: border-box;
+    width: 100%;               /* Vie koko tilan */
+    padding: 5px;              /* Sisäinen tila */
+    box-sizing: border-box;    /* Sisällytetään padding kokoon */
 }
 
-/*t13 + t14*/
+/* DRINKKI KORTTI */
 
+/* Yksittäisen drinkin kortti */
+.drinkki {
+    background: rgba(255,255,255,0.2); /* Läpinäkyvä lasimainen tausta */
+    backdrop-filter: blur(10px);       /* Taustan blur efekti */
+    padding: 20px;                     /* Sisäinen tila */
+    margin: 20px 0;                    /* Väli muiden korttien välillä */
+    width: 500px;                      /* Kortin leveys */
+    border-radius: 15px;               /* Pyöristetyt kulmat */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3); /* Varjo */
+    animation: fadeIn 0.5s ease;       /* Pehmeä ilmestyminen */
+}
+
+/* Drinkin otsikko */
+.drinkki h3 {
+    margin-bottom: 10px;               /* Tilaa otsikon alle */
+}
+
+/* Drinkin tekstiosiot */
+.drinkki p {
+    margin-bottom: 10px;               /* Väli tekstien välillä */
+}
+
+/* Ainesosalistalle sisennys */
+.drinkki .aineslista {
+    margin-left: 15px;                 /* Sisennetään listaa */
+}
+
+/* t13 + t14 */
+
+/* NAVBAR */
 .navbar {
-    background-color: black;
-    position: sticky;
-    top: 0;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    z-index: 1000; 
+    background-color: rgba(0,0,0,0.7);  /* Tausta läpinäkyvä musta */
+    width: 100%;                        /* Koko leveys */
+    display: flex;                       /* Flexbox */
+    flex-wrap: wrap;                     /* Rivittyy automaattisesti */
+    justify-content: center;             /* Keskitetään vaakasuunnassa */
+    position: sticky;                    /* Pysyy ylhäällä scrollatessa */
+    top: 0;                              /* Yläreunassa */
+    z-index: 1000;                       /* Päällä muiden elementtien */
 }
 
-.navbar a {               
-    display: block;
-    color: white;              
-    text-align: center;
-    padding: 14px 20px;
-    text-decoration: none;
-    font-weight: bold;
+/* Navbar linkit */
+.navbar a {
+    color: white;             /* Tekstin väri */
+    text-align: center;       /* Tekstin keskitys */
+    text-decoration: none;    /* Ei alleviivausta */
+    font-weight: bold;        /* Lihavoitu */
+    padding: 14px 16px;       /* Tilaa sisällä */
+    border-radius: 25px;      /* Pyöristetyt kulmat */
+    transition: 0.3s ease;    /* Pehmeä hover-siirtymä */
 }
 
+/* Navbar hover */
 .navbar a:hover {
-    background-color: whitesmoke;      
-    color: black;
+    background: white;        /* Tausta valkoiseksi hoverilla */
+    color: black;             /* Teksti mustaksi hoverilla */
+    transform: scale(1.05);   /* Kasvaa hieman hoverilla */
 }
 
-@media (max-width: 600px) {
+/* RESPONSIVE NAVBAR */
+@media (max-width: 1000px) {
     .navbar {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column; /* Rivittyy pystysuoraan pienellä näytöllä */
+        align-items: center;    /* Keskitetään vaakasuunnassa */
     }
     .navbar a {
-        width: 100%;
+        width: 100%;            /* Linkit vievät koko leveyden */
     }
 }
 
+/* ANIMAATIO */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); } /* Alkutila: näkymätön ja hieman ylempänä */
+    to { opacity: 1; transform: translateY(0); }       /* Loppu: näkyvä ja oikeassa paikassa */
+}
