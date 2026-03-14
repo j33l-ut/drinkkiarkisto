@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="fi">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>Rekisteröinti lomake</title>
     <link rel="stylesheet" href="tyyli.css">
     <script src="munJava.js" defer></script>
 </head>
-<body class="rekisteri">
-    <?php
+<body>
+  
+<?php    
 // Tämä lisää navigointipalkinS
 include 'naviGuest.php';
 ?>
@@ -59,8 +61,6 @@ if (isset($_POST['rekisteroidy'])) {
 $yhteys->close();
 ?>
 
-<img src="h1.jpg" alt="Kuva 1" class="rekisterikuva">
-<img src="h2.jpg" alt="Kuva 2" class="rekisterikuva">
 
 
 <p>
