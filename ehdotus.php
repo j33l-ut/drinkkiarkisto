@@ -1,171 +1,200 @@
+<?php
+session_start();
+
+// Tarkistetaan että käyttäjä on kirjautunut
+if (!isset($_SESSION["user_id"])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Näytetään navigointi käyttäjän roolin mukaan
+if ($_SESSION["role"] == 1) {
+    include "naviAdmin.php";
+} else {
+    include "naviUser.php";
+}
+?>
+
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 <head>
-    <meta charset="UTF-8">
-    <title>Lisää Ehdotus</title>
-    <link rel="stylesheet" href="tyyli.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lisää Ehdotus</title>
+<link rel="stylesheet" href="tyyli.css">
 </head>
-<body> 
+
+<body>
 
 <h2>Lisää Ehdotus</h2>
 
 <?php
+// Otetaan tietokantayhteys
+include "yhteys.php";
 
-require "yhteys.php"; //tietokantayhteys
-
-// Haetaan ainekset tietokannasta
+// Haetaan kaikki ainekset select-valikkoa varten
 $ainekset = [];
-$tulos = $yhteys->query("SELECT aines_id, nimi FROM Aines ORDER BY nimi");
-while ($r = $tulos->fetch_assoc()) {
+
+$stmt = $yhteys->prepare("SELECT aines_id, nimi FROM Aines ORDER BY nimi");
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Tallennetaan ainekset taulukkoon
+while ($r = $result->fetch_assoc()) {
     $ainekset[] = $r;
 }
+
+$stmt->close();
 ?>
 
-<form method="post" action="">
+<!-- Lomake uuden drinkin lisäämiseksi -->
+<form method="post">
 
 Nimi:<br>
-<input type="text" name="nimi" placeholder="nimi">
+<input type="text" name="nimi"><br><br>
 
 Juomalaji:<br>
-<input type="text" name="juomalaji" placeholder="juomalaji"><br><br>
+<input type="text" name="juomalaji"><br><br>
 
-<div class="aines-rivit">
+<?php for ($i=1; $i<=3; $i++): ?>
 
-  <div class="aines-rivi">
-    <div class="aines">
-      <label>Raaka-aine:</label>
-      <select name="aines1">
-        <?php foreach ($ainekset as $a): ?>
-          <option value="<?= $a['aines_id'] ?>">
-            <?= htmlspecialchars($a['nimi']) ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-    <div class="maara">
-      <label>Raaka-aineen määrä:</label>
-      <input type="text" name="maara1">
-    </div>
-  </div>
+<div class="aines-rivi">
+<label>Raaka-aine <?= $i ?>:</label>
+<select name="aines<?= $i ?>">
+<?php foreach ($ainekset as $a): ?>
+<option value="<?= $a['aines_id'] ?>">
+<?= htmlspecialchars($a['nimi']) ?>
+</option>
 
-  <div class="aines-rivi">
-    <div class="aines">
-      <select name="aines2">
-        <?php foreach ($ainekset as $a): ?>
-          <option value="<?= $a['aines_id'] ?>">
-            <?= htmlspecialchars($a['nimi']) ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-    <div class="maara">
-      <input type="text" name="maara2">
-    </div>
-  </div>
+<?php endforeach; ?>
 
-  <div class="aines-rivi">
-    <div class="aines">
-      <select name="aines3">
-        <?php foreach ($ainekset as $a): ?>
-          <option value="<?= $a['aines_id'] ?>">
-            <?= htmlspecialchars($a['nimi']) ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-    <div class="maara">
-      <input type="text" name="maara3">
-    </div>
-  </div>
+</select>
+
+<label>Määrä:</label>
+<input type="text" name="maara<?= $i ?>">
+
+<br><br>
 
 </div>
 
-<br>
+<?php endfor; ?>
 
 Ohjeet:<br>
-<textarea name="valmistusohje" placeholder="ohjeet" rows="4" cols="40"></textarea>
-<br><br>
+<textarea name="valmistusohje" rows="4" cols="40"></textarea><br><br>
 
 <input type="submit" name="laheta" value="LISÄÄ RESEPTI">
 
 </form>
 
-<hr>
-
 <?php
-// LOMAKKEEN KÄSITTELY
 
+// Tarkistetaan onko lomake lähetetty
 if (isset($_POST['laheta'])) {
 
-    $virheet = [];
+$virheet = [];
 
-    $nimi = trim($_POST['nimi']);
-    $juomalaji = trim($_POST['juomalaji']);
-    $ohje = trim($_POST['valmistusohje']);
+// Otetaan käyttäjän syöttämät tiedot
+$nimi = trim($_POST['nimi']);
+$juomalaji = trim($_POST['juomalaji']);
+$ohje = trim($_POST['valmistusohje']);
 
-    $aines1 = $_POST['aines1'];
-    $maara1 = trim($_POST['maara1']);
+$aineset = [];
+$maarät = [];
 
-    $aines2 = $_POST['aines2'];
-    $maara2 = trim($_POST['maara2']);
+// Haetaan kolmen raaka-aineen tiedot
+for ($i=1; $i<=3; $i++) {
 
-    $aines3 = $_POST['aines3'];
-    $maara3 = trim($_POST['maara3']);
+$aineset[$i] = $_POST["aines$i"];
+$maarät[$i] = trim($_POST["maara$i"]);
 
-    // Tarkistus 1: nimi ei tyhjä
-    if ($nimi == "") {
-        $virheet[] = "Nimi ei saa olla tyhjä.";
-    }
-
-    // Tarkistus 2: nimi ei saa olla jo tietokannassa
-    $check = $yhteys->query("SELECT drinkki_id FROM Drinkki WHERE nimi = '$nimi'");
-    if ($check->num_rows > 0) {
-        $virheet[] = "Tämän niminen drinkki on jo olemassa.";
-    }
-
-    // Tarkistus 3: vähintään yksi määrä täytetty
-    if ($maara1 == "" && $maara2 == "" && $maara3 == "") {
-        $virheet[] = "Vähintään yksi raaka-aineen määrä täytyy täyttää.";
-    }
-
-    // Tulostetaan virheet tai lisätään tiedot
-    if (count($virheet) > 0) {
-        echo "<ul class='virhe'>";
-        foreach ($virheet as $v) {
-            echo "<li>$v</li>";
-        }
-        echo "</ul>";
-    } else {
-
-        // Lisätään drinkki
-        $hyvaksytty = 0;
-        $yhteys->query("INSERT INTO Drinkki (nimi, juomalaji, valmistusohje, hyvaksytty)
-                        VALUES ('$nimi', '$juomalaji', '$ohje', $hyvaksytty)");
-
-        // Haetaan ID
-        $drinkkiId = $yhteys->insert_id;
-
-        $yksikko = "";
-
-        // Lisätään ainekset
-        if ($maara1 != "") {
-            $yhteys->query("INSERT INTO DrinkinAines (drinkki_id, aines_id, maara, yksikko)
-                            VALUES ($drinkkiId, $aines1, '$maara1', '$yksikko')");
-        }
-
-        if ($maara2 != "") {
-            $yhteys->query("INSERT INTO DrinkinAines (drinkki_id, aines_id, maara, yksikko)
-                            VALUES ($drinkkiId, $aines2, '$maara2', '$yksikko')");
-        }
-
-        if ($maara3 != "") {
-            $yhteys->query("INSERT INTO DrinkinAines (drinkki_id, aines_id, maara, yksikko)
-                            VALUES ($drinkkiId, $aines3, '$maara3', '$yksikko')");
-        }
-
-        echo "<p class='onnistunut'>Resepti lisätty onnistuneesti!</p>";
-    }
 }
+
+// Tarkistetaan että nimi ei ole tyhjä
+if ($nimi == "") {
+$virheet[] = "Nimi ei saa olla tyhjä.";
+}
+
+// Tarkistetaan että drinkkiä ei ole jo tietokannassa
+$stmt = $yhteys->prepare("SELECT drinkki_id FROM Drinkki WHERE nimi = ?");
+$stmt->bind_param("s", $nimi);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows > 0) {
+$virheet[] = "Tämän niminen drinkki on jo olemassa.";
+}
+
+$stmt->close();
+
+// Tarkistetaan että ainakin yksi raaka-aine on annettu
+if ($maarät[1] == "" && $maarät[2] == "" && $maarät[3] == "") {
+$virheet[] = "Vähintään yksi raaka-aineen määrä täytyy täyttää.";
+}
+
+// Jos virheitä on, näytetään ne
+if (!empty($virheet)) {
+
+echo "<ul class='virhe'>";
+
+foreach ($virheet as $v) {
+echo "<li>$v</li>";
+}
+
+echo "</ul>";
+
+} else {
+
+// Jos ei virheitä -> lisätään drinkki tietokantaan
+
+$stmt = $yhteys->prepare("
+INSERT INTO Drinkki (nimi, juomalaji, valmistusohje, hyvaksytty)
+VALUES (?, ?, ?, 1)
+");
+
+$stmt->bind_param("sss", $nimi, $juomalaji, $ohje);
+
+$stmt->execute();
+
+// Otetaan juuri lisätyn drinkin ID
+$drinkkiId = $stmt->insert_id;
+
+$stmt->close();
+
+
+// Lisätään raaka-aineet DrinkinAines-tauluun
+for ($i=1; $i<=3; $i++) {
+
+if ($maarät[$i] != "") {
+
+$stmt = $yhteys->prepare("
+INSERT INTO DrinkinAines (drinkki_id, aines_id, maara)
+VALUES (?, ?, ?)
+");
+
+$stmt->bind_param(
+"iis",
+$drinkkiId,
+$aineset[$i],
+$maarät[$i]
+);
+
+$stmt->execute();
+
+$stmt->close();
+
+}
+
+}
+
+// Ilmoitus käyttäjälle
+echo "<p class='onnistunut'>Resepti lisätty onnistuneesti!</p>";
+
+}
+
+}
+
+$yhteys->close();
+
 ?>
 
 </body>
