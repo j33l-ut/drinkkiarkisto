@@ -1,18 +1,17 @@
 <?php
-// Käynnistetään session
 session_start();
 
-// Tarkistetaan, onko käyttäjä kirjautunut
+// Tarkistetaan, että käyttäjä on kirjautunut
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit();
 }
 
-// Näytetään oikea navigointi roolin mukaan
+// Näytetään navigointi roolin mukaan
 if ($_SESSION["role"] == 1) {
     include "naviAdmin.php"; // admin
 } else {
-    include "naviUser.php";  // tavallinen käyttäjä
+    include "naviUser.php"; // tavallinen käyttäjä
 }
 ?>
 
@@ -29,10 +28,9 @@ if ($_SESSION["role"] == 1) {
 <h2>Lisää Ehdotus</h2>
 
 <?php
-// Otetaan tietokantayhteys
 include "yhteys.php";
 
-// Haetaan ainekset SELECT-valikkoja varten
+// Haetaan ainekset valikkoa varten
 $ainekset = [];
 $stmt = $yhteys->prepare("SELECT aines_id, nimi FROM Aines ORDER BY nimi");
 $stmt->execute();
@@ -43,7 +41,6 @@ while ($r = $result->fetch_assoc()) {
 $stmt->close();
 ?>
 
-<!-- Lomake uuden drinkin lisäämiseksi -->
 <form method="post" action="">
     Nimi:<br>
     <input type="text" name="nimi" placeholder="nimi"><br><br>
@@ -79,12 +76,9 @@ $stmt->close();
 </form>
 
 <?php
-// Käsitellään lomake
 if (isset($_POST['laheta'])) {
 
     $virheet = [];
-
-    // Otetaan käyttäjän syötteet
     $nimi = trim($_POST['nimi']);
     $juomalaji = trim($_POST['juomalaji']);
     $ohje = trim($_POST['valmistusohje']);
@@ -99,7 +93,6 @@ if (isset($_POST['laheta'])) {
     // Tarkistetaan pakolliset kentät
     if ($nimi == "") $virheet[] = "Nimi ei saa olla tyhjä.";
 
-    // Tarkistetaan, onko drinkki jo olemassa
     $stmt = $yhteys->prepare("SELECT drinkki_id FROM Drinkki WHERE nimi = ?");
     $stmt->bind_param("s", $nimi);
     $stmt->execute();
@@ -107,19 +100,26 @@ if (isset($_POST['laheta'])) {
     if ($stmt->num_rows > 0) $virheet[] = "Tämän niminen drinkki on jo olemassa.";
     $stmt->close();
 
-    // Tarkistetaan, että vähintään yksi määrä on täytetty
+    // Vähintään yksi raaka-aine
     if ($maarät[1] == "" && $maarät[2] == "" && $maarät[3] == "") {
         $virheet[] = "Vähintään yksi raaka-aineen määrä täytyy täyttää.";
     }
 
-    // Näytetään virheet, jos niitä on
+    // Näytetään virheet
     if (!empty($virheet)) {
         echo "<ul class='virhe'>";
         foreach ($virheet as $v) echo "<li>$v</li>";
         echo "</ul>";
     } else {
-        // Lisätään drinkki tietokantaan
-        $hyvaksytty = 0;
+
+        // Hyväksyntä roolin mukaan
+        if ($_SESSION["role"] == 1) {
+            $hyvaksytty = 1; // admin lisää = hyväksytty
+        } else {
+            $hyvaksytty = 0; // käyttäjä ehdottaa = ei hyväksytty
+        }
+
+        // Lisätään drinkki
         $stmt = $yhteys->prepare("INSERT INTO Drinkki (nimi, juomalaji, valmistusohje, hyvaksytty) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("sssi", $nimi, $juomalaji, $ohje, $hyvaksytty);
         $stmt->execute();
@@ -127,7 +127,7 @@ if (isset($_POST['laheta'])) {
         $stmt->close();
 
         // Lisätään raaka-aineet
-        $yksikko = "";
+        $yksikko = ""; // voit lisätä yksikön jos haluat
         for ($i=1; $i<=3; $i++) {
             if ($maarät[$i] != "") {
                 $stmt = $yhteys->prepare("INSERT INTO DrinkinAines (drinkki_id, aines_id, maara, yksikko) VALUES (?, ?, ?, ?)");
