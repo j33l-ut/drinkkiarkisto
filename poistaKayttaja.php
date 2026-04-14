@@ -1,4 +1,17 @@
 <?php
+/**
+ * Käyttäjien hallinta (admin)
+ * 
+ * Tarkoitus:
+ * - Mahdollistaa käyttäjien poistaminen
+ * 
+ * Ominaisuudet:
+ * - Näyttää kaikki käyttäjät
+ * - Estää adminia poistamasta itseään
+ * - Käyttää prepared statementeja turvallisuuteen
+ */
+
+
 session_start(); 
 // Käynnistetään sessio, jotta voidaan tarkistaa kirjautuminen ja rooli
 

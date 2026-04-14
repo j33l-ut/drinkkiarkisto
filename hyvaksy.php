@@ -1,4 +1,17 @@
 <?php
+/**
+ * Drinkkiehdotusten hyväksyntä (admin)
+ * 
+ * Tarkoitus:
+ * - Admin voi hyväksyä tai hylätä käyttäjien lisäämiä drinkkejä
+ * 
+ * Ominaisuudet:
+ * - Näyttää kaikki hyväksymättömät drinkit
+ * - Hyväksyminen (hyvaksytty = 1)
+ * - Hylkääminen (poistaa drinkin ja ainesosat)
+ * - GROUP_CONCAT ainesosien yhdistämiseen
+ */
+
 session_start(); 
 // Käynnistetään sessio, jotta voidaan tarkistaa kirjautuminen ja rooli
 

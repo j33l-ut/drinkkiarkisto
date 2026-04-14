@@ -1,4 +1,17 @@
 <?php
+/**
+ * Drinkkien poistaminen (admin)
+ * 
+ * Tarkoitus:
+ * - Mahdollistaa drinkkien poistaminen tietokannasta
+ * 
+ * Ominaisuudet:
+ * - Listaa kaikki drinkit
+ * - Poistaa valitun drinkin ID:n perusteella
+ * - Käyttää prepared statementia
+ */
+
+
 session_start(); // Käynnistetään sessio, jotta voidaan tarkistaa käyttäjän kirjautuminen
 
 // Tarkistetaan onko käyttäjä kirjautunut

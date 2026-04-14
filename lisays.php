@@ -1,4 +1,17 @@
 <?php
+/**
+ * Drinkin lisääminen
+ * 
+ * Tarkoitus:
+ * - Mahdollistaa uuden drinkin lisääminen
+ * 
+ * Ominaisuudet:
+ * - Admin: drinkki hyväksytään suoraan
+ * - User: drinkki menee hyväksyttäväksi
+ * - Sisältää ainesosien liittämisen drinkkiin
+ * - Lomakkeen validointi
+ */
+
 session_start();
 
 // Tarkistetaan, että käyttäjä on kirjautunut

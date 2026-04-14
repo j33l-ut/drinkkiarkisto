@@ -1,4 +1,18 @@
 <?php
+/**
+ * Aineksen lisääminen -sivu
+ * Tarkoitus:
+ * - Mahdollistaa uusien ainesosien lisääminen tietokantaan
+ * - Estää duplikaattien lisääminen
+ * - Näyttää kaikki lisätyt ainekset listana
+ * 
+ * Ominaisuudet:
+ * - Kirjautumisen tarkistus
+ * - Roolipohjainen navigaatio (admin/user)
+ * - Lomakkeen validointi
+ * - Tietokantahaku ja lisäys
+ */
+
 // Käynnistetään session, jotta tiedetään kuka on kirjautunut
 session_start();
 

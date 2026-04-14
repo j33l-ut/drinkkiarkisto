@@ -1,4 +1,21 @@
 <?php
+/**
+ * Drinkin lisääminen
+ * 
+ * Tarkoitus:
+ * - Mahdollistaa uuden drinkin lisääminen
+ * 
+ * Ominaisuudet:
+ * - Admin: drinkki hyväksytään heti
+ * - User: drinkki menee hyväksyttäväksi
+ * 
+ * Huom:
+ * - hyvaksytty = 0 → ei vielä hyväksytty (odottaa adminin hyväksyntää)
+ * - hyvaksytty = 1 → hyväksytty (näkyy käyttäjille)
+ */
+?>
+
+<?php
 session_start();
 
 // Tarkistetaan, että käyttäjä on kirjautunut

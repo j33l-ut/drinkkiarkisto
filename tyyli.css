@@ -1,3 +1,20 @@
+/* 
+ * Tyylitiedosto (tyyli.css)
+ * 
+ * Tarkoitus:
+ * - Määrittelee koko sivuston ulkoasun
+ * - Vastaa lomakkeiden, listojen ja drinkkikorttien tyyleistä
+ * 
+ * Sisältö:
+ * - Yleiset reset-tyylit (margin, padding, fontti)
+ * - Lomakkeet ja input-kentät
+ * - Painikkeet ja viestit (virhe / onnistunut)
+ * - Drinkkien esitystyyli (kortit)
+ * - Navigaatiopalkki (navbar)
+ * - Responsiivisuus (media query)
+ * - Animaatiot (fadeIn)
+ */
+ 
 /* t10 */
 
 /* GLOBAL RESET */

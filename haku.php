@@ -1,4 +1,18 @@
 <?php
+/**
+ * Drinkkien hakusivu
+ * 
+ * Tarkoitus:
+ * - Mahdollistaa drinkkien hakeminen nimellä tai ainesosalla
+ * - Näyttää vain hyväksytyt drinkit (hyvaksytty = 1)
+ * 
+ * Ominaisuudet:
+ * - Hakulomake (nimi / aines)
+ * - Dynaaminen SQL-haku
+ * - Ainesosien haku erillisellä kyselyllä
+ * - Tulosten näyttäminen selkeässä muodossa
+ */
+
 session_start(); // Käynnistetään sessio, jotta voidaan käyttää kirjautumistietoja
 
 // Tarkistetaan onko käyttäjä kirjautunut

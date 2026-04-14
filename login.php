@@ -1,4 +1,17 @@
 <?php
+/**
+ * Kirjautumissivu
+ * 
+ * Tarkoitus:
+ * - Mahdollistaa käyttäjän kirjautuminen järjestelmään
+ * 
+ * Ominaisuudet:
+ * - Tarkistaa käyttäjätunnus ja salasana
+ * - Salasanan tarkistus password_verify-funktiolla
+ * - Tallentaa käyttäjän tiedot sessioon
+ * - Ohjaa kirjautumisen jälkeen hakusivulle
+ */ 
+
 session_start(); // Käynnistetään sessio, jotta voidaan tallentaa kirjautumistiedot
 
 require_once "yhteys.php"; // Otetaan tietokantayhteys käyttöön

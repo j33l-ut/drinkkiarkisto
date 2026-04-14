@@ -1,3 +1,19 @@
+<?php
+/**
+ * Navigaatiopalkki (admin)
+ * 
+ * Tarkoitus:
+ * - Näyttää ylläpitäjälle tarkoitetut linkit
+ * 
+ * Sisältö:
+ * - Admin-toiminnot (esim. hyväksyntä, poistot)
+ * - Linkit sivuston eri osiin
+ * 
+ * Huom:
+ * - Näytetään vain käyttäjälle, jonka rooli on admin
+ */
+?>
+
 <div class="navbar">
     <a href="haku.php">Haku</a>
     <a href="lisays.php">Lisää Drinkki</a>

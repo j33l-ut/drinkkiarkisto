@@ -1,3 +1,19 @@
+<?php
+/**
+ * Tietosuojaseloste
+ * 
+ * Tarkoitus:
+ * - Kertoo käyttäjälle, miten hänen tietojaan käsitellään
+ * - Täyttää tietosuojavaatimukset 
+ * 
+ * Sisältö:
+ * - Rekisterin nimi ja käyttötarkoitus
+ * - Kerättävät tiedot
+ * - Tietojen säilytys ja suojaus
+ * - Käyttäjän oikeudet
+ */
+?>
+
 <!DOCTYPE html>
 <html lang="fi">
 <head>

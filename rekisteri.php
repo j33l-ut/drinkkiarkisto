@@ -1,3 +1,18 @@
+<?php
+/**
+ * Rekisteröitymissivu
+ * 
+ * Tarkoitus:
+ * - Mahdollistaa uuden käyttäjän luominen
+ * 
+ * Ominaisuudet:
+ * - Tarkistaa tyhjät kentät
+ * - Estää duplikaatti käyttäjätunnukset
+ * - Salasanan hashays (password_hash)
+ * - Tallentaa käyttäjän tietokantaan
+ */
+?>
+
 <!DOCTYPE html>
 <html lang="fi">
 <head>
