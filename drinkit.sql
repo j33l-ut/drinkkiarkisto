@@ -1,5 +1,3 @@
-Tämä komento luo käyttäjä-taulun.
-
 CREATE TABLE Kayttaja (
     kayttaja_id INT PRIMARY KEY AUTO_INCREMENT,
     kayttajatunnus VARCHAR(50) NOT NULL UNIQUE,
@@ -8,16 +6,19 @@ CREATE TABLE Kayttaja (
     rooli VARCHAR(20)
 );
 
-Tämä komento luo Drinkki-taulun.
-
 CREATE TABLE Drinkki (
     drinkki_id INT PRIMARY KEY AUTO_INCREMENT,
     nimi VARCHAR(100) NOT NULL,
     juomalaji VARCHAR(50),
     valmistusohje TEXT,
-    hyvaksytty BOOLEAN,
+    hyvaksytty BOOLEAN
 ); 
-Tämä komento luo DrinkkiAineis-taulun. 
+
+CREATE TABLE Aines (
+    aines_id INT PRIMARY KEY AUTO_INCREMENT,
+    nimi VARCHAR(50) NOT NULL
+);
+
 
 CREATE TABLE DrinkinAines (
     drinkki_id INT,
@@ -29,9 +30,3 @@ CREATE TABLE DrinkinAines (
     FOREIGN KEY (aines_id) REFERENCES Aines(aines_id)
 );
 
-Tämä komento luo Aineis-taulun.
-
-CREATE TABLE Aines (
-    aines_id INT PRIMARY KEY AUTO_INCREMENT,
-    nimi VARCHAR(50) NOT NULL
-);
